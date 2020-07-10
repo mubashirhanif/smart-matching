@@ -1,0 +1,6 @@
+[submodule "smart-matching-client"]
+	path = smart-matching-client
+	url = https://github.com/mubashirhanif/smart-matching-client
+[submodule "smart-matching-server"]
+	path = smart-matching-server
+	url = https://github.com/mubashirhanif/smart-matching-server
