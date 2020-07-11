@@ -1,0 +1,47 @@
+version: '3.7'
+services:
+  mongo:
+    image: "mongo:4.2.8"
+    ports:
+      - "27017:27017"
+    networks: 
+      - backend
+  server:
+    container_name: smart-matching-server
+    build:
+      context: ./smart-matching-server
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: development
+      MONGO_LINK: mongodb://mongo:27017/smartmatch
+    volumes:
+      - ./smart-matching-server:/server
+      - /server/node_modules
+    networks: 
+      - backend
+      - app
+    depends_on:
+      - mongo
+    stdin_open: true
+    
+  client:
+    container_name: smart-matching-client
+    build:
+      context: ./smart-matching-client
+    environment:
+      API_URL: "http://server:8080/"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./smart-matching-client:/client
+      - /client/node_modules
+    networks:
+      - app
+    depends_on:
+      - server
+    stdin_open: true
+    
+networks:
+  backend:
+  app:
